@@ -19,52 +19,65 @@ class MainActivity : AppCompatActivity() {
     lateinit var  lbl1 : TextView
     lateinit var clear : Button
     var message = ""
-    lateinit var tarace : ArrayList<String>
+     var tarace = listOf("HI THERE", "YOU ARE WELCOME","KOTLIN APPLICATION", "HI LOVLY")
+    var messages = mutableListOf<String>()
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         txt = findViewById(R.id.editTextTextPersonName3)
-        tarace = ArrayList()
+
         add = findViewById(R.id.button2)
         lbl1 = findViewById(R.id.textView)
         clear = findViewById(R.id.button1)
-        clear.alpha = 0F
-      //  lbl = findViewById(R.id.textView6)
-
+        clear.alpha = 1F
         val myRV = findViewById<RecyclerView>(R.id.rvMain)
-        myRV.adapter = RecycleViewAddapter(tarace)
+        myRV.adapter = RecycleViewAddapter(messages)
         myRV.layoutManager = LinearLayoutManager(this)
         var ans = ""
-        var rand = 0
-
-        lbl1.text = "Guess the correct number [***]"
+        var rand = Random.nextInt(tarace.size-1)
+        var randPhrase = tarace[rand]
+        var hint = ""
+        for (i in 0..randPhrase.length-1){
+            if(randPhrase[i] != ' '){
+                hint = hint + "*"
+            }else{
+                hint = hint + randPhrase[i]
+            }
+        }
+        lbl1.text = "Guess the correct phrase [${hint}]"
         clear.setOnClickListener{
-            lbl1.text = "Guess the correct number [***]"
-          //  students =  mutableListOf("")
-            tarace.add("----------------------------------------------------")
-            clear.alpha = 0F
-            tarace.clear()
+            lbl1.text = "Guess the correct phrase [${hint}]"
+            clear.alpha = 1F
+            messages.clear()
             myRV.adapter?.notifyDataSetChanged()
         }
         add.setOnClickListener {
-             ans = txt.text.toString()
-             rand = Random.nextInt(101)
-            if(ans == rand.toString()){
-                lbl1.text = "Guess the correct number [Unlocked] [${ans}]"
-                tarace.add("Your guss is ${ans}, You got it!! 😊")
-
-                clear.alpha = 1F
-
-            }else{
-
-                tarace.add("Sorry!! Wrong guess 😐")
-
-            }
-            myRV.adapter?.notifyDataSetChanged()
-            txt.text.clear()
+                ans = txt.text.toString()
+                rand = Random.nextInt(tarace.size - 1)
+                // var randomPhrase = tarace[rand]
+                if (ans == randPhrase) {
+                    lbl1.text = "Guess the correct phrase [Unlocked] [${ans}]"
+                    clear.alpha = 1F
+                    messages.add("YOU GOT THE PHRASE")
+                } else {
+                    var str = ""
+                    for (i in 0..randPhrase.length - 1) {
+                        if (randPhrase[i] == ans[i]) {
+                            str = str + randPhrase[i]
+                        } else {
+                            str = str + "*"
+                        }
+                        if (ans.length > randPhrase.length || ans.length < randPhrase.length) {
+                            str = "Miss match length, try again ${hint}"
+                            break
+                        }
+                    }
+                    lbl1.text = str
+                }
+                myRV.adapter?.notifyDataSetChanged()
+                txt.text.clear()
 
         }
-        println(tarace)
     }
 }
