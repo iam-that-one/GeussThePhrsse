@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         var str = ""
         clear.setOnClickListener {
             str = ""
-            lbl1.text = ""
+           hint = ""
             rand = Random.nextInt(phrases.size)
             randPhrase = phrases[rand]
             for (i in 0..randPhrase.length - 1) {
@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             lbl1.text = hint
+
         }
         guess.setOnClickListener {
             ans = txt.text.toString()
