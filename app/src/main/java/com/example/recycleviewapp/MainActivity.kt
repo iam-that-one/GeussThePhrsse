@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var lbl: TextView
     lateinit var lbl1: TextView
     lateinit var clear: Button
-
+    var count = 0
 
     var message = ""
     val phrases = listOf("HI THERE", "YOU ARE WELCOME", "KOTLIN APPLICATION", "HI LOVLY ONE")
@@ -62,9 +62,10 @@ class MainActivity : AppCompatActivity() {
             ans = txt.text.toString()
 
             if (ans == randPhrase) {
-                lbl1.text = "Guess the correct phrase [Unlocked] [${ans}]"
+                lbl1.text = "You guessed                                                                                                                                      the correct phrase [Unlocked] [${ans}]"
                 messages.add("YOU GOT THE PHRASE")
                 hint = ""
+                count++
             }
             else{
                 for (i in 0..randPhrase.length - 1) {
@@ -74,12 +75,14 @@ class MainActivity : AppCompatActivity() {
                         str = str + "*"
                     }
                     if (ans.length > randPhrase.length || ans.length < randPhrase.length) {
-                        hint = ""
+
                         str = "Miss match length, try again ${hint}"
+
                         break
                     }
                 }
                 lbl1.text = str
+               // hint = ""
             }
             myRV.adapter?.notifyDataSetChanged()
             txt.text.clear()
